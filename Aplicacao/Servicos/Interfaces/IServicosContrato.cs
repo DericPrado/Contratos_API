@@ -1,4 +1,4 @@
-public interface IServicoContrato
+public interface IServicosContrato
 {
     public Task<Contrato?> ObterContratoPorId(Guid id);
     public Task<List<Contrato>> ObterTodosContratosAtivos();

@@ -1,4 +1,4 @@
-public class ServicoContrato : IServicoContrato
+public class ServicoContrato : IServicosContrato
 {
     private readonly IRepositorioContrato _repositorioContrato;
 

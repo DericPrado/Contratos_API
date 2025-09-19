@@ -1,8 +1,8 @@
-public class ServicoContrato : IServicosContrato
+public class ServicosContrato : IServicosContrato
 {
     private readonly IRepositorioContrato _repositorioContrato;
 
-    public ServicoContrato(IRepositorioContrato repositorioContrato)
+    public ServicosContrato(IRepositorioContrato repositorioContrato)
     {
         _repositorioContrato = repositorioContrato;
     }

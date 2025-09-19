@@ -6,8 +6,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IServicosPessoa, ServicosPessoa>();
 builder.Services.AddTransient<IServicosTrabalho, ServicosTrabalho>();
+builder.Services.AddTransient<IServicosContrato, ServicosContrato>();
 builder.Services.AddSingleton<IRepositorioPessoa, RepositorioPessoa>();
 builder.Services.AddSingleton<IRepositorioTrabalho, RepositorioTrabalho>();
+builder.Services.AddSingleton<IRepositorioContrato, RepositorioContrato>();
 
 var app = builder.Build();
 
@@ -22,5 +24,6 @@ app.UseHttpsRedirection();
 
 app.MapPessoaEndpoints();
 app.MapTrabalhoEndpoints();
+app.MapContratoEndpoints();
 
 app.Run();

@@ -5,7 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IServicosPessoa, ServicosPessoa>();
+builder.Services.AddTransient<IServicosTrabalho, ServicosTrabalho>();
 builder.Services.AddSingleton<IRepositorioPessoa, RepositorioPessoa>();
+builder.Services.AddSingleton<IRepositorioTrabalho, RepositorioTrabalho>();
 
 var app = builder.Build();
 
@@ -19,5 +21,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapPessoaEndpoints();
+app.MapTrabalhoEndpoints();
 
 app.Run();

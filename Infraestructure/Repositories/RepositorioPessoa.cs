@@ -1,16 +1,16 @@
 public class RepositorioPessoa : IRepositorioPessoa
 {
-    private List<Pessoa> pessoas = new List<Pessoa>();
+    private List<Pessoa> _pessoas = new List<Pessoa>();
 
     public async Task<List<Pessoa>> ObterTodasPessoasAtivas()
     {
-        var result = pessoas.Where(p => p.Ativo).ToList();
+        var result = _pessoas.Where(p => p.Ativo).ToList();
         return await Task.FromResult(result);
     }
 
     public async Task<Pessoa?> ObterPessoaPorDocumento(string documento)
     {
-        var pessoa = pessoas.FirstOrDefault(p => p.CPF_CNPJ == documento && p.Ativo);
+        var pessoa = _pessoas.FirstOrDefault(p => p.CPF_CNPJ == documento && p.Ativo);
         return await Task.FromResult(pessoa);
     }
 
@@ -18,7 +18,7 @@ public class RepositorioPessoa : IRepositorioPessoa
     {
         try
         {
-            pessoas.Add(pessoa);
+            _pessoas.Add(pessoa);
             return await Task.FromResult(true);
         }
         catch
@@ -31,7 +31,7 @@ public class RepositorioPessoa : IRepositorioPessoa
     {
         try
         {
-            var pessoaExistente = pessoas.FirstOrDefault(p => p.Id == pessoa.Id);
+            var pessoaExistente = _pessoas.FirstOrDefault(p => p.Id == pessoa.Id);
             if (pessoaExistente != null)
             {
                 pessoaExistente.Nome = pessoa.Nome;
@@ -52,7 +52,7 @@ public class RepositorioPessoa : IRepositorioPessoa
     {
         try
         {
-            var pessoa = pessoas.FirstOrDefault(p => p.Id == id);
+            var pessoa = _pessoas.FirstOrDefault(p => p.Id == id);
             if (pessoa != null)
             {
                 pessoa.Ativo = false;

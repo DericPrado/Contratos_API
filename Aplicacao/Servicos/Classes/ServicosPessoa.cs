@@ -17,7 +17,7 @@ public class ServicosPessoa : IServicosPessoa
         return await _repositorioPessoa.ObterTodasPessoasAtivas();
     }
 
-    public async Task<ResponseCadastraPessoa> AdicionarPessoa(RequestCadastraPessoa request)
+    public async Task<Pessoa> AdicionarPessoa(RequestCadastraPessoa request)
     {
         var pessoa = new Pessoa
         {
@@ -29,10 +29,7 @@ public class ServicosPessoa : IServicosPessoa
             Ativo = true
         };
         await _repositorioPessoa.AdicionarPessoa(pessoa);
-        return new ResponseCadastraPessoa
-        {
-            Pessoa = pessoa
-        };
+        return pessoa;
     }
 
     public async Task<ResponseAtualizaPessoa> AtualizarPessoa(RequestAtualizaPessoa request)

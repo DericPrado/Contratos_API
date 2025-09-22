@@ -12,7 +12,7 @@ public class ServicosTrabalho : IServicosTrabalho
         return await _repositorioTrabalho.ObterTodosTrabalhosAtivos();
     }
 
-    public Task<Trabalho> ObterTrabalhoPorId(Guid id)
+    public Task<Trabalho?> ObterTrabalhoPorId(Guid id)
     {
         return _repositorioTrabalho.ObterTrabalhoPorId(id);
     }

@@ -17,7 +17,7 @@ public class ServicosPessoa : IServicosPessoa
         return await _repositorioPessoa.ObterTodasPessoasAtivas();
     }
 
-    public async Task<Pessoa> AdicionarPessoa(RequestCadastraPessoa request)
+    public async Task<Pessoa?> AdicionarPessoa(RequestCadastraPessoa request)
     {
         var pessoa = new Pessoa
         {

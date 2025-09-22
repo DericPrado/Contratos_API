@@ -14,6 +14,12 @@ public class RepositorioPessoa : IRepositorioPessoa
         return await Task.FromResult(pessoa);
     }
 
+    public Task<Pessoa?> ObterPessoaPorId(Guid id)
+    {
+        var pessoa = _pessoas.FirstOrDefault(p => p.Id == id && p.Ativo);
+        return Task.FromResult(pessoa);
+    }
+
     public async Task<bool> AdicionarPessoa(Pessoa pessoa)
     {
         try
@@ -31,7 +37,7 @@ public class RepositorioPessoa : IRepositorioPessoa
     {
         try
         {
-            var pessoaExistente = _pessoas.FirstOrDefault(p => p.Id == pessoa.Id);
+            var pessoaExistente = ObterPessoaPorId(pessoa.Id).Result;
             if (pessoaExistente != null)
             {
                 pessoaExistente.Nome = pessoa.Nome;

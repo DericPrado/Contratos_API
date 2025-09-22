@@ -1,12 +1,15 @@
-public class Contrato
+using System.ComponentModel.DataAnnotations;
+
+public class RequestCadastraContrato
 {
-    public Guid ContratoId { get; set; }
+    [Required]
     public Guid TrabalhoId { get; set; }
+    [Required]
     public Guid ClienteId { get; set; }
+    [Required]
     public Guid PrestadorId { get; set; }
+    [Required]
     public string Descricao { get; set; } = string.Empty;
-    public DateTime DataInicio { get; set; }
-    public DateTime DataFim { get; set; }
+    [Required]
     public decimal Valor { get; set; }
-    public bool Ativo { get; set; } = true;
 }

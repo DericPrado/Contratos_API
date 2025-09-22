@@ -1,57 +1,62 @@
 public class RepositorioContrato : IRepositorioContrato
 {
-    private readonly List<Contrato> _contratos;
+    private List<Contrato> _contratos = new List<Contrato>();
     private readonly IRepositorioPessoa _repositorioPessoa;
     private readonly IRepositorioTrabalho _repositorioTrabalho;
 
-    public Task<Contrato?> ObterContratoPorId(Guid id)
+    public RepositorioContrato(IRepositorioPessoa repositorioPessoa, IRepositorioTrabalho repositorioTrabalho)
+    {
+        _repositorioPessoa = repositorioPessoa;
+        _repositorioTrabalho = repositorioTrabalho;
+    }
+
+    public async Task<Contrato?> ObterContratoPorId(Guid id)
     {
         var contrato = _contratos.FirstOrDefault(c => c.ContratoId == id && c.Ativo);
-        return Task.FromResult(contrato);
+        return await Task.FromResult(contrato);
     }
 
-    public Task<List<Contrato>> ObterTodosContratosAtivos()
+    public async Task<List<Contrato>> ObterTodosContratosAtivos()
     {
         var contratosAtivos = _contratos.Where(c => c.Ativo).ToList();
-        return Task.FromResult(contratosAtivos);
+        return await Task.FromResult(contratosAtivos);
     }
 
-    public Task<bool> AdicionarContrato(Contrato contrato)
+    public async Task<bool> AdicionarContrato(Contrato contrato)
     {
         try
         {
-            var cliente = _repositorioPessoa.ObterPessoaPorId(contrato.ClienteId).Result;
-            var prestador = _repositorioPessoa.ObterPessoaPorId(contrato.PrestadorId).Result;
-            var trabalho = _repositorioTrabalho.ObterTrabalhoPorId(contrato.TrabalhoId).Result;
+            var cliente = await _repositorioPessoa.ObterPessoaPorId(contrato.ClienteId);
+            var prestador = await _repositorioPessoa.ObterPessoaPorId(contrato.PrestadorId);
+            var trabalho = await _repositorioTrabalho.ObterTrabalhoPorId(contrato.TrabalhoId);
 
-            if (cliente == null || prestador == null || trabalho == null || !cliente.Ativo || !prestador.Ativo || !prestador.Ativo || !trabalho.Ativo)
+            if (cliente == null || prestador == null || trabalho == null || !cliente.Ativo || !prestador.Ativo || !trabalho.Ativo)
             {
-                return Task.FromResult(false);
+                return false;
             }
 
+            contrato.ContratoId = Guid.NewGuid();
             contrato.ClienteId = cliente.Id;
             contrato.PrestadorId = prestador.Id;
             contrato.TrabalhoId = trabalho.Id;
-            contrato.ContratoId = Guid.NewGuid();
-            contrato.Descricao = trabalho.Descricao;
             contrato.DataInicio = DateTime.Now;
-            contrato.DataFim = DateTime.Now.AddDays(trabalho.DuracaoMediaDias);
+            contrato.DataFim = DateTime.Now.AddDays(30);
             contrato.Valor = trabalho.Preco * 1.2m; // Adiciona 20% de taxa
             _contratos.Add(contrato);
-            return Task.FromResult(true);
+            return true;
         }
         catch
         {
-            return Task.FromResult(false);
+            return false;
         }
     }
 
-    public Task<bool> AtualizarContrato(Contrato contrato)
+    public async Task<bool> AtualizarContrato(Contrato contrato)
     {
-        var contratoExistente = ObterContratoPorId(contrato.ContratoId).Result;
+        var contratoExistente = await ObterContratoPorId(contrato.ContratoId);
         if (contratoExistente == null)
         {
-            return Task.FromResult(false);
+            return false;
         }
 
         contratoExistente.Descricao = contrato.Descricao;
@@ -59,17 +64,17 @@ public class RepositorioContrato : IRepositorioContrato
         contratoExistente.DataFim = contrato.DataFim;
         contratoExistente.Valor = contrato.Valor;
         contratoExistente.Descricao = contrato.Descricao;
-        return Task.FromResult(true);
+        return true;
     }
 
-    public Task<bool> RemoverContrato(Guid id)
+    public async Task<bool> RemoverContrato(Guid id)
     {
-        var contrato = ObterContratoPorId(id).Result;
+        var contrato = await ObterContratoPorId(id);
         if (contrato == null)
         {
-            return Task.FromResult(false);
+            return false;
         }
         contrato.Ativo = false;
-        return Task.FromResult(true);
+        return true;
     }
 }

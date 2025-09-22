@@ -11,7 +11,5 @@ public class RequestCadastraContrato
     [Required]
     public string Descricao { get; set; } = string.Empty;
     [Required]
-    public DateTime DataInicio { get; set; }
-    [Required]
     public decimal Valor { get; set; }
 }

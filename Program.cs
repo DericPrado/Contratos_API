@@ -4,8 +4,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<IServicosPessoa, ServicosPessoa>();
+builder.Services.AddSingleton<IServicosPessoa, ServicosPessoa>();
+builder.Services.AddSingleton<IServicosTrabalho, ServicosTrabalho>();
+builder.Services.AddSingleton<IServicosContrato, ServicosContrato>();
 builder.Services.AddSingleton<IRepositorioPessoa, RepositorioPessoa>();
+builder.Services.AddSingleton<IRepositorioTrabalho, RepositorioTrabalho>();
+builder.Services.AddSingleton<IRepositorioContrato, RepositorioContrato>();
 
 var app = builder.Build();
 
@@ -19,5 +23,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapPessoaEndpoints();
+app.MapTrabalhoEndpoints();
+app.MapContratoEndpoints();
 
 app.Run();

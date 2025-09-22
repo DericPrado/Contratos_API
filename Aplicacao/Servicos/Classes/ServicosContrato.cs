@@ -21,12 +21,15 @@ public class ServicosContrato : IServicosContrato
     {
         var novoContrato = new Contrato
         {
+            ContratoId = Guid.NewGuid(),
             TrabalhoId = contrato.TrabalhoId,
             ClienteId = contrato.ClienteId,
             PrestadorId = contrato.PrestadorId,
             Descricao = contrato.Descricao,
-            DataInicio = contrato.DataInicio,
-            Valor = contrato.Valor
+            DataInicio = new DateTime(),
+            DataFim = new DateTime(),
+            Valor = contrato.Valor,
+            Ativo = true
         };
         return await _repositorioContrato.AdicionarContrato(novoContrato);
     }
